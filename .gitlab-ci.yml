@@ -1,0 +1,32 @@
+
+variables:
+  MAVEN_CLI_OPTS: "--settings maven-settings.xml --batch-mode --errors --fail-at-end --show-version"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  # override the context path in the secret variables of Gitlab
+  CONTEXT_PATH: "/"
+  # ignore git certificate errors
+  GIT_SSL_NO_VERIFY: "true"
+
+before_script:
+  # extract maven settings
+  - 'echo $MAVEN_SETTINGS_BASE64 | base64 -d > maven-settings.xml'
+
+stages:
+  - build
+
+build & test:
+  stage: build
+  image: maven:3.6.2-jdk-11-slim
+  tags:
+    - shared
+  artifacts:
+    name: "$CI_COMMIT_REF_NAME"
+    expire_in: 1 week
+    paths:
+      - 'target/singlepage-springboot-*.war'
+  cache:
+    key: maven-repository
+    paths:
+    - .m2/repository
+  script:
+    - 'mvn $MAVEN_CLI_OPTS clean package'

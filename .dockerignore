@@ -1,0 +1,6 @@
+# ignore everything except the build .jar
+/target
+/.idea
+/build
+/.gitlab-ci.yml
+!/.git

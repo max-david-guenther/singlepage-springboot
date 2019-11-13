@@ -1,0 +1,15 @@
+# Eclipse
+/.classpath
+/.project
+/.settings/
+
+# Visual Studio Code
+/.vscode
+
+# Intellj Idea
+/.idea
+
+# Maven
+/target/
+/maven-settings.xml
+
