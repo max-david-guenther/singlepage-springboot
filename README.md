@@ -66,9 +66,13 @@ The path where your directory structure with the locales of your application lie
 If a path is not found in the application resources of a requested locale then the index file is returned. This is by default `index.html`, but can be overridden via `singlepage-springboot.index-file-name`. 
 
 # Building
-Execute these steps to build singlepage-springboot:
- 1. `mvn clean package`
- 2. (optional) `docker build -t singlepage-springboot .`
+You can build with Docker or just with Maven.
+
+## Build via Docker
+Run `docker build -t singlepage-springboot .`. This will build via Maven inside of Docker and then copy the build result to the final image based on openjdk.
+
+## Build via Maven
+Run: `mvn clean package` That's it!
 
 # License
 Springboot-singlepage is licensed under the [MIT](https://opensource.org/licenses/MIT) license. See `LICENSE` file.
