@@ -1,6 +1,5 @@
-# Builds the Docker image with application being packaged externally (i.e. not with docker). The build should be run
-# from the parent directory.
-FROM "openjdk:14-jdk-alpine"
+# Builds the Docker image with application being compiled with Maven externally (i.e. not with docker).
+FROM openjdk:14-jdk-alpine
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
   CMD [ "curl", "--fail", "http://localhost:8080/actuator/health" ]
 RUN \

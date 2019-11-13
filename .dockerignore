@@ -1,5 +1,6 @@
 # ignore everything except the build .jar
 /target
+!/target/singlepage-springboot-*.jar
 /.idea
 /build
 /.gitlab-ci.yml
