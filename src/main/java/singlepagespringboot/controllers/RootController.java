@@ -46,7 +46,7 @@ public class RootController {
     ) throws IOException {
         String uri = request.getRequestURI();
         File file = requestResourceMapper.map(uri, locale);
-        MediaType mediaType = fileUtils.probeMediaType(file.toPath());
+        MediaType mediaType = fileUtils.probeMediaType(file);
         InputStreamResource resourceStream = mockableIOStreamUtils.inputStreamResourceFromFile(file);
 
         return ResponseEntity.ok()

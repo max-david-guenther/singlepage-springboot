@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,22 +23,22 @@ public class UTFileUtils {
     /* dependencies */
     @Mock private MockableFileUtils mockableFileUtils;
     /* parameters */
-    private Path path;
+    private File file;
     private String contentType;
     private MediaType expectedMediaType;
 
     @Before
     public void setUp() throws IOException {
-        path = Paths.get("/path/to/file.json");
+        file = new File("/path/to/file.json");
         contentType = "application/json";
         expectedMediaType = MediaType.APPLICATION_JSON;
-        when(mockableFileUtils.probeContentType(path)).thenReturn(contentType);
+        when(mockableFileUtils.probeContentType(file)).thenReturn(contentType);
     }
 
     @Test
     public void probeMediaType() throws IOException {
         // act
-        MediaType mediaType = fileUtils.probeMediaType(path);
+        MediaType mediaType = fileUtils.probeMediaType(file);
 
         // assert
         assertThat(mediaType).isEqualTo(expectedMediaType);
@@ -46,10 +47,10 @@ public class UTFileUtils {
     @Test
     public void probeMediaType_null() throws IOException {
         // arrange
-        when(mockableFileUtils.probeContentType(path)).thenReturn(null);
+        when(mockableFileUtils.probeContentType(file)).thenReturn(null);
 
         // act
-        MediaType mediaType = fileUtils.probeMediaType(path);
+        MediaType mediaType = fileUtils.probeMediaType(file);
 
         // assert
         assertThat(mediaType).isNull();

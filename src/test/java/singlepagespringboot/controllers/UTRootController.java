@@ -48,11 +48,10 @@ public class UTRootController {
         requestUri = "/index.html";
         mappedRequestFilePath = Paths.get("/en-US/index.html");
         mappedFileLength = 1024;
-        when(mappedRequestFile.toPath()).thenReturn(mappedRequestFilePath);
         when(mappedRequestFile.length()).thenReturn(mappedFileLength);
         when(request.getRequestURI()).thenReturn(requestUri);
         when(requestResourceMapper.map(requestUri, requestLocale)).thenReturn(mappedRequestFile);
-        when(fileUtils.probeMediaType(mappedRequestFile.toPath())).thenReturn(detectedMediaType);
+        when(fileUtils.probeMediaType(mappedRequestFile)).thenReturn(detectedMediaType);
         when(mockableIOStreamUtils.inputStreamResourceFromFile(mappedRequestFile)).thenReturn(mappedStream);
     }
 
