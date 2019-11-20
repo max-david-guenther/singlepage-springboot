@@ -1,5 +1,5 @@
 # Single Page Spring Boot
-This is a simple application based on the Spring Boot framework to serve single page web pages such as web pages created with Angular. Highlighted features:
+This is a simple application based on the Spring Boot framework to serve single page web applications such as web pages created with Angular. Highlighted features:
  * Take care of virtual routes all having to map to an `index.html` file. In other words if a path cannot be found in the  files of your application then the `index.html` is served.
  * Serve multiple localized versions of the same application. This is useful if you use the default localization mechanism of Angular where you compile once for each locale.
  * Serve the right locale of your application based on a cookie and the `Accept` header. The cookie, if present, takes precedence over the `Accept` header.
@@ -42,7 +42,7 @@ COPY --chown=app:app dist $APP_HOME/static                 # copy application re
 The Docker container is run by the user `app` with UID `8080` and GID `8080` by default. The application is served via an embedded Tomcat on port `8080`.
 
 ## Serving a single locale
-Just put your application resources into `en-US` (`$APP_HOME/static/en-US` in the Docker). It doesn't actually matter if that's your actual locale - it will be served as the default locale if there is no match. You can however configure a different default locale and then use a matching directory, if it bothers you (it probably should!). See [Configuration](#configuration) for more details.
+Just put your application resources into `en-US` (`$APP_HOME/static/en-US` in the Docker). It doesn't actually matter if that's your actual locale - it will be served as the default locale if there is no match. You can configure a different default locale and then use a matching directory. See [Configuration](#configuration) for more details.
 
 ## Locale matching
 Singlepage-springboot uses Javas locale [filtering](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Locale.html#filter(java.util.List,java.util.Collection,java.util.Locale.FilteringMode)) with the [extended filter](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Locale.FilteringMode.html#EXTENDED_FILTERING) to match locales. This means a locale like `en` will match both `en-US` and `en-GB`. If more than one locale is requested through an `Accept` header as priority list, then the best match based on those priorities is chosen.
