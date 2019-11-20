@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -85,5 +85,12 @@ public class ITSinglePageSpringBootApplication {
             .andExpect(content().contentType(MediaType.TEXT_HTML))
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("Hallo Welt")));
+    }
+
+    @Test
+    public void get_unrecognizableContentType() throws Exception {
+        mockMvc.perform(get("/unrecognizable.fileextension"))
+            .andExpect(content().contentType(MediaType.APPLICATION_OCTET_STREAM))
+            .andExpect(status().isOk());
     }
 }
