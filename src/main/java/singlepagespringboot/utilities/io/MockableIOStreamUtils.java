@@ -1,6 +1,7 @@
 package singlepagespringboot.utilities.io;
 
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +12,7 @@ import java.io.FileNotFoundException;
  *
  * @author Max Günther
  */
+@Component
 public class MockableIOStreamUtils {
 
     /**

@@ -1,5 +1,7 @@
 package singlepagespringboot.utilities.io;
 
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,6 +11,7 @@ import java.nio.file.Path;
  *
  * @author Max Günther
  */
+@Component
 public class MockableFileUtils {
 
     /**
