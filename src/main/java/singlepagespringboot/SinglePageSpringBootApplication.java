@@ -3,6 +3,7 @@ package singlepagespringboot;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * This is the main entry point into the application.
@@ -10,6 +11,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * @author Max Günther
  */
 @SpringBootApplication
+@EnableWebMvc
 public class SinglePageSpringBootApplication extends SpringBootServletInitializer {
 
     /**
