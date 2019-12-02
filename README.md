@@ -4,6 +4,7 @@ This is a simple application based on the Spring Boot framework to serve single 
  * Serve multiple localized versions of the same application. This is useful if you use the default localization mechanism of Angular where you compile once for each locale.
  * Serve the right locale of your application based on a cookie and the `Accept` header. The cookie, if present, takes precedence over the `Accept` header.
  * Provide sensible compression defaults for single page applications.
+ * Serving multiple virtual hosts (disabled by default).
  
 ## Table of Contents
   * [Usage](#usage)
@@ -64,6 +65,28 @@ The path where your directory structure with the locales of your application lie
 
 ## Configuring the index file
 If a path is not found in the application resources of a requested locale then the index file is returned. This is by default `index.html`, but can be overridden via `singlepage-springboot.index-file-name`. 
+
+## Configuration of virtual hosts
+The virtual host feature is disabled by default. The feature can be turned on by setting `singlepage-springboot.virtual-host.enabled=true`. This introduces level of virtual host directories between the file root and each localization:
+
+```
+dist/
+|-- de-DE/
+|   |-- index.html
+|   |-- style.css
+|-- en-US/
+|   |-- index.html
+|   |-- style.css
+|-- virtual-host-1
+    |-- de-DE/
+    |   |-- index.html
+    |   |-- style.css
+    |-- en-US/
+        |-- index.html
+        |-- style.css
+```
+
+Note that if the `Host` header is not present in the request then the default behavior -- i.e. directory structure -- is used.
 
 # Building
 You can build with Docker or just with Maven.

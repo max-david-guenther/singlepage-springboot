@@ -15,30 +15,30 @@ import java.util.Locale;
  */
 @Component
 public class RequestResourceMapper {
-    @Autowired private StaticFileRootProvider staticFileRootProvider;
     @Autowired private UIProperties uiProperties;
 
     /**
-     * Maps a requested path to an application resource in the given locale. If the path doesn't exist for the given
-     * locale then the index file (typically <code>index.html</code> unless configured otherwise) for that locale is
-     * returned.
+     * Maps a requested path to an application resource in the given locale, relative to the given file root. If the
+     * path doesn't exist for the given locale then the index file (typically <code>index.html</code> unless configured
+     * otherwise) for that locale is returned.
      *
+     * @param fileRootProvider provides the file root
      * @param uri the path
      * @param locale the locale
      * @return the path
      */
-    public File map(String uri, @NotNull Locale locale) {
+    public File map(StaticFileRootProvider fileRootProvider, String uri, @NotNull Locale locale) {
         String localizedPath = String.format("%s%s", locale.toLanguageTag(), uri == null ? "/" : uri);
-        File file = staticFileRootProvider.getFile(localizedPath);
+        File file = fileRootProvider.getFile(localizedPath);
         if (file.exists() && !file.isDirectory()) {
             return file;
         }
-        return indexHtml(locale);
+        return indexHtml(fileRootProvider, locale);
     }
 
-    private File indexHtml(Locale locale) {
+    private File indexHtml(StaticFileRootProvider fileRootProvider, Locale locale) {
         String indexFileName = uiProperties.getIndexFileName();
         String localizedIndexPath = String.format("%s/%s", locale.toLanguageTag(), indexFileName);
-        return staticFileRootProvider.getFile(localizedIndexPath);
+        return fileRootProvider.getFile(localizedIndexPath);
     }
 }

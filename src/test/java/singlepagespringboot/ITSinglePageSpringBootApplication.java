@@ -11,7 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import singlepagespringboot.configuration.DefaultVirtualHostPolicy;
 import singlepagespringboot.request.StaticFileRootProvider;
+import singlepagespringboot.request.VirtualHostPolicy;
 
 import javax.servlet.http.Cookie;
 import java.io.File;
@@ -30,11 +32,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ITSinglePageSpringBootApplication {
     @Autowired private MockMvc mockMvc;
     @MockBean private StaticFileRootProvider staticFileRootProvider;
+    @MockBean private VirtualHostPolicy virtualHostPolicy;
 
     @Before
     public void setUp() {
         ClassLoader classLoader = getClass().getClassLoader();
         File resourcesDir = new File(classLoader.getResource(".").getFile());
+        when(virtualHostPolicy.getFileRootProvider(any())).thenReturn(staticFileRootProvider);
         when(staticFileRootProvider.getFile(any()))
             .thenAnswer(mock -> new File(resourcesDir, mock.getArgument(0)));
     }

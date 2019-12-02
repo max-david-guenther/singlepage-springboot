@@ -8,6 +8,8 @@ import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
+import singlepagespringboot.request.StaticFileRootProvider;
+import singlepagespringboot.request.VirtualHostPolicy;
 import singlepagespringboot.utilities.io.FileUtils;
 import singlepagespringboot.utilities.io.MockableIOStreamUtils;
 import singlepagespringboot.request.RequestResourceMapper;
@@ -31,10 +33,12 @@ public class UTRootController {
     @Mock private RequestResourceMapper requestResourceMapper;
     @Mock private FileUtils fileUtils;
     @Mock private MockableIOStreamUtils mockableIOStreamUtils;
+    @Mock private VirtualHostPolicy virtualHostPolicy;
     /* parameters */
     @Mock private HttpServletRequest request;
     @Mock private InputStreamResource mappedStream;
     @Mock private File mappedRequestFile;
+    @Mock private StaticFileRootProvider fileRootProvider;
     private Path mappedRequestFilePath;
     private long mappedFileLength;
     private Locale requestLocale;
@@ -50,7 +54,8 @@ public class UTRootController {
         mappedFileLength = 1024;
         when(mappedRequestFile.length()).thenReturn(mappedFileLength);
         when(request.getRequestURI()).thenReturn(requestUri);
-        when(requestResourceMapper.map(requestUri, requestLocale)).thenReturn(mappedRequestFile);
+        when(virtualHostPolicy.getFileRootProvider(request)).thenReturn(fileRootProvider);
+        when(requestResourceMapper.map(fileRootProvider, requestUri, requestLocale)).thenReturn(mappedRequestFile);
         when(fileUtils.probeMediaType(mappedRequestFile)).thenReturn(detectedMediaType);
         when(mockableIOStreamUtils.inputStreamResourceFromFile(mappedRequestFile)).thenReturn(mappedStream);
     }

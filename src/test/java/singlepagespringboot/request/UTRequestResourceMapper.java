@@ -19,9 +19,9 @@ public class UTRequestResourceMapper {
     @InjectMocks
     private RequestResourceMapper requestResourceMapper;
     /* mocked dependencies */
-    @Mock private StaticFileRootProvider staticFileRootProvider;
     @Mock private UIProperties uiProperties;
     /* parameters */
+    @Mock private StaticFileRootProvider fileRootProvider;
     @Mock(name="/en-US/style.css") private File expectedMappedFile;
     @Mock(name="/en-US/index.html") private File expectedMappedIndexFile;
     private String configuredIndexFileName;
@@ -38,8 +38,8 @@ public class UTRequestResourceMapper {
         localizedPath = "en-US/style.css";
         localizedIndexPath = "en-US/index.html";
 
-        when(staticFileRootProvider.getFile(localizedPath)).thenReturn(expectedMappedFile);
-        when(staticFileRootProvider.getFile(localizedIndexPath)).thenReturn(expectedMappedIndexFile);
+        when(fileRootProvider.getFile(localizedPath)).thenReturn(expectedMappedFile);
+        when(fileRootProvider.getFile(localizedIndexPath)).thenReturn(expectedMappedIndexFile);
         when(expectedMappedFile.exists()).thenReturn(true);
         when(expectedMappedFile.isDirectory()).thenReturn(false);
         when(uiProperties.getIndexFileName()).thenReturn(configuredIndexFileName);
@@ -48,7 +48,7 @@ public class UTRequestResourceMapper {
     @Test
     public void map() {
         // act
-        File mappedFile = requestResourceMapper.map(uri, locale);
+        File mappedFile = requestResourceMapper.map(fileRootProvider, uri, locale);
 
         // assert
         assertThat(mappedFile).isEqualTo(expectedMappedFile);
@@ -60,7 +60,7 @@ public class UTRequestResourceMapper {
         when(expectedMappedFile.exists()).thenReturn(false);
 
         // act
-        File mappedFile = requestResourceMapper.map(uri, locale);
+        File mappedFile = requestResourceMapper.map(fileRootProvider, uri, locale);
 
         // assert
         assertThat(mappedFile).isEqualTo(expectedMappedIndexFile);

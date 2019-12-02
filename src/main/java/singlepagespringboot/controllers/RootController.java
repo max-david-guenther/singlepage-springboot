@@ -6,6 +6,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import singlepagespringboot.request.StaticFileRootProvider;
+import singlepagespringboot.request.VirtualHostPolicy;
 import singlepagespringboot.utilities.io.FileUtils;
 import singlepagespringboot.utilities.io.MockableIOStreamUtils;
 import singlepagespringboot.request.RequestResourceMapper;
@@ -30,6 +32,7 @@ public class RootController {
     @Autowired private RequestResourceMapper requestResourceMapper;
     @Autowired private FileUtils fileUtils;
     @Autowired private MockableIOStreamUtils mockableIOStreamUtils;
+    @Autowired private VirtualHostPolicy virtualHostPolicy;
 
     /**
      * Serves all application requests.
@@ -45,7 +48,8 @@ public class RootController {
             Locale locale
     ) throws IOException {
         String uri = request.getRequestURI();
-        File file = requestResourceMapper.map(uri, locale);
+        StaticFileRootProvider fileRootProvider = virtualHostPolicy.getFileRootProvider(request);
+        File file = requestResourceMapper.map(fileRootProvider, uri, locale);
         MediaType mediaType = fileUtils.probeMediaType(file);
         InputStreamResource resourceStream = mockableIOStreamUtils.inputStreamResourceFromFile(file);
 
