@@ -8,7 +8,7 @@ RUN mvn clean package
 
 FROM openjdk:14-jdk-alpine
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-  CMD [ "curl", "--fail", "http://localhost:8080/actuator/health" ]
+  CMD [ "curl", "--fail", "-H", "Accept: application/json", "http://localhost:8080/actuator/health" ]
 RUN \
   addgroup -g 8080 app && \
   adduser -u 8080 -G app -D app
