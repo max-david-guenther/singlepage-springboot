@@ -4,7 +4,8 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
   CMD [ "curl", "--fail", "-H", "Accept: application/json", "http://localhost:8080/actuator/health" ]
 RUN \
   addgroup -g 8080 app && \
-  adduser -u 8080 -G app -D app
+  adduser -u 8080 -G app -D app && \
+  apk add curl
 USER app
 ENV APP_HOME /home/app
 ENV APP_JAR "${APP_HOME}/singlepage-springboot.jar"
