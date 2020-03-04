@@ -16,5 +16,6 @@ RUN \
 USER app
 ENV APP_HOME /home/app
 ENV APP_JAR "${APP_HOME}/singlepage-springboot.jar"
+WORKDIR $APP_HOME
 COPY --chown=app:app --from=builder /build/target/singlepage-springboot-*.jar $APP_JAR
 CMD java -jar $APP_JAR
